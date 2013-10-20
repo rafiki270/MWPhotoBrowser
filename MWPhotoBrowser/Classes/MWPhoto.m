@@ -46,10 +46,15 @@
 	return [[MWPhoto alloc] initWithURL:url];
 }
 
++ (MWPhoto *)photoWithHTML:(NSString *)htmlString {
+    return [[MWPhoto alloc] initWithHTML:htmlString];
+}
+
 #pragma mark NSObject
 
 - (id)initWithImage:(UIImage *)image {
-	if ((self = [super init])) {
+	self = [super init];
+    if (self) {
 		_image = image;
 	}
 	return self;
@@ -57,17 +62,28 @@
 
 // Depricated
 - (id)initWithFilePath:(NSString *)path {
-	if ((self = [super init])) {
+	self = [super init];
+    if (self) {
 		_photoURL = [NSURL fileURLWithPath:path];
 	}
 	return self;
 }
 
 - (id)initWithURL:(NSURL *)url {
-	if ((self = [super init])) {
+	self = [super init];
+    if (self) {
 		_photoURL = [url copy];
 	}
 	return self;
+}
+
+- (id)initWithHTML:(NSString *)htmlString {
+    self = [super init];
+    if (self) {
+        _htmlString = htmlString;
+        _type = MWPhotoTypeHTML;
+    }
+    return self;
 }
 
 - (void)dealloc {

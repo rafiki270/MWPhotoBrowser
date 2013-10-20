@@ -11,6 +11,7 @@
 #import "MWPhotoBrowser.h"
 #import "MWPhoto.h"
 #import "DACircularProgressView.h"
+#import "MWWebView.h"
 
 // Declare private methods of browser
 @interface MWPhotoBrowser ()
@@ -98,7 +99,15 @@
     if (_photo != photo) {
         _photo = photo;
     }
-    [self displayImage];
+    if ([(MWPhoto *)photo type] == MWPhotoTypeImage) {
+        [self displayImage];
+    }
+    else {
+        MWWebView *webView = [[MWWebView alloc] initWithFrame:self.bounds];
+        [webView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+        [self addSubview:webView];
+        [webView loadHTMLString:[(MWPhoto *)photo htmlString] baseURL:nil];
+    }
 }
 
 - (void)prepareForReuse {
